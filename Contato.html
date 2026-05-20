@@ -1,0 +1,30 @@
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><i class="bi bi-people-fill me-3 text-primary"></i>Clientes</h1>
+    <p class="page-subtitle">{{ clientes|length }} clientes cadastrados</p>
+  </div>
+</div>
+ 
+<div class="container py-5">
+  <div class="row g-4">
+    {% for cliente in clientes %}
+    <div class="col-sm-6 col-lg-3">
+      <div class="client-card h-100">
+        <div class="client-avatar">
+          {{ cliente.nome[0] }}
+        </div>
+        <h5 class="client-name">{{ cliente.nome }}</h5>
+        <ul class="list-unstyled client-info">
+          <li><i class="bi bi-envelope-fill text-primary me-2"></i>{{ cliente.email }}</li>
+          <li><i class="bi bi-telephone-fill text-primary me-2"></i>{{ cliente.telefone }}</li>
+          <li><i class="bi bi-geo-alt-fill text-primary me-2"></i>{{ cliente.endereco }}</li>
+        </ul>
+        <a href="{{ url_for('cliente_detalhe', cliente_id=cliente.id) }}"
+           class="btn btn-outline-primary btn-sm w-100 mt-3">
+          <i class="bi bi-eye me-1"></i>Ver Perfil
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

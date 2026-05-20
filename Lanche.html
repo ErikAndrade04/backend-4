@@ -1,0 +1,102 @@
+<div class="page-header">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-2">
+        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Início</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('cardapio') }}">Cardápio</a></li>
+        <li class="breadcrumb-item active">{{ lanche.nome }}</li>
+      </ol>
+    </nav>
+    <h1 class="page-title">{{ lanche.nome }}</h1>
+  </div>
+</div>
+ 
+<div class="container py-5">
+  <div class="row g-5 align-items-start">
+ 
+    <div class="col-lg-5 text-center">
+      <div class="lanche-emoji-display">
+        {% if lanche.categoria == 'Hambúrguer' %}
+        {% elif lanche.categoria == 'Pizza' %}
+        {% elif lanche.categoria == 'Hot Dog' %}
+        {% elif lanche.categoria == 'Bebida' %}
+        {% else %}{% endif %}
+      </div>
+      {% if lanche.destaque %}
+      <span class="badge bg-warning text-dark fs-6 mt-3"> Item em destaque</span>
+      {% endif %}
+    </div>
+ 
+    <div class="col-lg-7">
+      <span class="food-card-badge mb-3 d-inline-block">{{ lanche.categoria }}</span>
+      <h2 class="fw-800 mb-2">{{ lanche.nome }}</h2>
+      <p class="lead text-muted">{{ lanche.descricao }}</p>
+ 
+      <div class="detail-price-box my-4">
+        <span class="label">Preço</span>
+        <span class="price">R$ {{ "%.2f"|format(lanche.preco) }}</span>
+      </div>
+ 
+      <div class="detail-info-grid mb-4">
+        <div class="detail-info-item">
+          <i class="bi bi-tag-fill text-primary"></i>
+          <div>
+            <small class="text-muted d-block">Categoria</small>
+            <strong>{{ lanche.categoria }}</strong>
+          </div>
+        </div>
+        <div class="detail-info-item">
+          <i class="bi bi-clock-fill text-warning"></i>
+          <div>
+            <small class="text-muted d-block">Preparo</small>
+            <strong>~15 min</strong>
+          </div>
+        </div>
+        <div class="detail-info-item">
+          <i class="bi bi-fire text-danger"></i>
+          <div>
+            <small class="text-muted d-block">Popularidade</small>
+            <strong>{% if lanche.destaque %}Alta{% else %}Média{% endif %}</strong>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="d-flex gap-3 flex-wrap">
+        <a href="{{ url_for('contato') }}" class="btn btn-primary btn-lg">
+          <i class="bi bi-bag-plus-fill me-2"></i>Pedir Agora
+        </a>
+        <a href="{{ url_for('cardapio') }}" class="btn btn-outline-secondary btn-lg">
+          <i class="bi bi-arrow-left me-2"></i>Voltar ao Cardápio
+        </a>
+      </div>
+    </div>
+ 
+  </div>
+ 
+  {% if similares %}
+  <div class="mt-6">
+    <h4 class="fw-700 mb-4">Você também pode gostar</h4>
+    <div class="row g-4">
+      {% for s in similares %}
+      <div class="col-sm-6 col-lg-4">
+        <div class="food-card h-100">
+          <div class="food-card-emoji" style="font-size:3rem">
+            {% if s.categoria == 'Hambúrguer' %}
+            {% elif s.categoria == 'Pizza' %}
+            {% elif s.categoria == 'Hot Dog' %}
+            {% elif s.categoria == 'Bebida' %}
+            {% else %}{% endif %}
+          </div>
+          <div class="food-card-body">
+            <h6 class="food-card-title">{{ s.nome }}</h6>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="food-card-price">R$ {{ "%.2f"|format(s.preco) }}</span>
+              <a href="{{ url_for('lanche_detalhe', lanche_id=s.id) }}" class="btn btn-sm btn-outline-primary">Ver</a>
+            </div>
+          </div>
+        </div>
+      </div>
+=    </div>
+  </div>
+ 
+</div>

@@ -1,0 +1,68 @@
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><i class="bi bi-journal-bookmark-fill me-3 text-primary"></i>Cardápio</h1>
+    <p class="page-subtitle">Escolha seu favorito e faça seu pedido</p>
+  </div>
+</div>
+ 
+<div class="container py-5">
+ 
+    <div class="filter-bar mb-5">
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="{{ url_for('cardapio') }}"
+         class="btn btn-filter {% if not categoria_filtro %}active{% endif %}">
+        <i class="bi bi-grid-fill me-1"></i>Todos
+      </a>
+      {% for cat in categorias %}
+      <a href="{{ url_for('cardapio', categoria=cat) }}"
+         class="btn btn-filter {% if categoria_filtro == cat %}active{% endif %}">
+        {% if cat == 'Hambúrguer' %}🍔
+        {% elif cat == 'Pizza' %}🍕
+        {% elif cat == 'Hot Dog' %}🌭
+        {% elif cat == 'Bebida' %}🥤
+        {% else %}🍟{% endif %}
+        {{ cat }}
+      </a>
+      {% endfor %}
+    </div>
+    <p class="text-muted small mt-2 mb-0">{{ lanches|length }} item(ns) encontrado(s)</p>
+  </div>
+ 
+  <div class="row g-4">
+    {% for lanche in lanches %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="food-card h-100">
+        {% if lanche.destaque %}
+        <div class="food-card-destaque-ribbon">⭐ Destaque</div>
+        {% endif %}
+        <div class="food-card-emoji">
+          {% if lanche.categoria == 'Hambúrguer' %}🍔
+          {% elif lanche.categoria == 'Pizza' %}🍕
+          {% elif lanche.categoria == 'Hot Dog' %}🌭
+          {% elif lanche.categoria == 'Bebida' %}🥤
+          {% else %}🍟{% endif %}
+        </div>
+        <div class="food-card-body">
+          <span class="food-card-badge">{{ lanche.categoria }}</span>
+          <h5 class="food-card-title">{{ lanche.nome }}</h5>
+          <p class="food-card-desc">{{ lanche.descricao }}</p>
+          <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+            <span class="food-card-price">R$ {{ "%.2f"|format(lanche.preco) }}</span>
+            <a href="{{ url_for('lanche_detalhe', lanche_id=lanche.id) }}"
+               class="btn btn-primary btn-sm px-3">
+              <i class="bi bi-eye me-1"></i>Detalhes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5">
+      <div style="font-size:4rem">😔</div>
+      <h5 class="mt-3 text-muted">Nenhum item encontrado nesta categoria.</h5>
+      <a href="{{ url_for('cardapio') }}" class="btn btn-primary mt-3">Ver todos</a>
+    </div>
+    {% endfor %}
+  </div>
+ 
+</div>

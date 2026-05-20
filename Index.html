@@ -1,0 +1,118 @@
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-75">
+      <div class="col-lg-6">
+        <span class="badge badge-pill-custom mb-3">🚀 Entrega em 30 minutos</span>
+        <h1 class="hero-title">
+          Sabor que<br>
+          <span class="text-highlight">chega até</span><br>
+          você
+        </h1>
+        <p class="hero-subtitle">
+          Os melhores lanches artesanais da cidade, quentinhos e com ingredientes selecionados. Peça agora!
+        </p>
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          <a href="{{ url_for('cardapio') }}" class="btn btn-primary btn-lg px-4">
+            <i class="bi bi-journal-bookmark-fill me-2"></i>Ver Cardápio
+          </a>
+          <a href="{{ url_for('pedidos_lista') }}" class="btn btn-outline-light btn-lg px-4">
+            <i class="bi bi-bag-check me-2"></i>Meus Pedidos
+          </a>
+        </div>
+ 
+      <div class="col-lg-6 d-none d-lg-flex justify-content-center">
+        <div class="hero-emoji-wrap">
+          <div class="hero-emoji-main"></div>
+          <div class="hero-emoji-float f1"></div>
+          <div class="hero-emoji-float f2"></div>
+          <div class="hero-emoji-float f3"></div>
+          <div class="hero-emoji-float f4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="py-6 bg-surface">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Como funciona?</h2>
+      <p class="section-subtitle">Três passos simples para o seu lanche favorito chegar</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% set steps = [
+        ('1', 'bi-journal-bookmark-fill', 'Escolha no Cardápio', 'Navegue pelo nosso menu e escolha seus favoritos com um clique.', '#FF6B35'),
+        ('2', 'bi-bag-check-fill',       'Faça seu Pedido',      'Confirme o pedido e aguarde a confirmação do restaurante.',        '#FFB800'),
+        ('3', 'bi-bicycle',              'Receba em Casa',        'Nossos entregadores levam tudo quentinho até a sua porta.',        '#2ECC71'),
+      ] %}
+      {% for num, icon, titulo, desc, cor in steps %}
+      <div class="col-md-4">
+        <div class="step-card text-center">
+          <div class="step-number" style="background:{{ cor }}20; color:{{ cor }}">{{ num }}</div>
+          <div class="step-icon" style="color:{{ cor }}">
+            <i class="bi {{ icon }}"></i>
+          </div>
+          <h5 class="mt-3 fw-700">{{ titulo }}</h5>
+          <p class="text-muted small">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="py-6">
+  <div class="container">
+    <div class="section-header d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
+      <div>
+        <h2 class="section-title mb-1">Destaques do Dia</h2>
+        <p class="section-subtitle mb-0">Nossas escolhas especiais para você</p>
+      </div>
+      <a href="{{ url_for('cardapio') }}" class="btn btn-outline-primary">
+        Ver todos <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+ 
+    <div class="row g-4">
+      {% for lanche in destaques %}
+      <div class="col-sm-6 col-lg-3">
+        <div class="food-card h-100">
+          <div class="food-card-emoji">
+            {% if lanche.categoria == 'Hambúrguer' %}
+            {% elif lanche.categoria == 'Pizza' %}
+            {% elif lanche.categoria == 'Hot Dog' %}
+            {% elif lanche.categoria == 'Bebida' %}
+            {% else %}{% endif %}
+          </div>
+          <div class="food-card-body">
+            <span class="food-card-badge">{{ lanche.categoria }}</span>
+            <h6 class="food-card-title">{{ lanche.nome }}</h6>
+            <p class="food-card-desc">{{ lanche.descricao }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+              <span class="food-card-price">R$ {{ "%.2f"|format(lanche.preco) }}</span>
+              <a href="{{ url_for('lanche_detalhe', lanche_id=lanche.id) }}"
+                 class="btn btn-primary btn-sm">
+                Ver mais
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="cta-banner py-6">
+  <div class="container text-center">
+    <h2 class="cta-title">Pronto para pedir?</h2>
+    <p class="cta-subtitle">Entre em contato ou explore o cardápio completo agora mesmo.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{{ url_for('cardapio') }}" class="btn btn-light btn-lg px-4 fw-600">
+        <i class="bi bi-journal-bookmark-fill me-2"></i>Cardápio completo
+      </a>
+      <a href="{{ url_for('contato') }}" class="btn btn-outline-light btn-lg px-4">
+        <i class="bi bi-chat-dots-fill me-2"></i>Fale conosco
+      </a>
+    </div>
+  </div>
+</section>
